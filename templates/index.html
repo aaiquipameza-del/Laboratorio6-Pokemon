@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Búsqueda de Pokémon</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+        .pokemon { display: flex; gap: 1.5rem; align-items: flex-start; }
+        .sprite { width: 150px; }
+        .field { margin: 0.25rem 0; }
+        .error { color: darkred; }
+    </style>
+ </head>
+<body>
+    <h1>Búsqueda de Pokémon</h1>
+
+    <form method="post" action="/">
+        <label for="name">Nombre del Pokémon:</label>
+        <input id="name" name="name" type="text" placeholder="Ej: pikachu" required>
+        <button type="submit">Buscar</button>
+    </form>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if pokemon %}
+        <hr>
+        <div>
+            <h2>{{ pokemon.name | capitalize }}</h2>
+
+            <p class="field"><strong>Tipos:</strong> {{ pokemon.types | join(', ') }}</p>
+
+            <h3>Imágenes</h3>
+            <div style="display:flex; gap:1rem; align-items:center;">
+                <div>
+                    <p><strong>Frente</strong></p>
+                    {% if pokemon.sprites.front_default %}
+                        <img class="sprite" src="{{ pokemon.sprites.front_default }}" alt="frente default">
+                    {% endif %}
+                    {% if pokemon.sprites.front_shiny %}
+                        <img class="sprite" src="{{ pokemon.sprites.front_shiny }}" alt="frente shiny">
+                    {% endif %}
+                </div>
+                <div>
+                    <p><strong>Espalda</strong></p>
+                    {% if pokemon.sprites.back_default %}
+                        <img class="sprite" src="{{ pokemon.sprites.back_default }}" alt="espalda default">
+                    {% endif %}
+                    {% if pokemon.sprites.back_shiny %}
+                        <img class="sprite" src="{{ pokemon.sprites.back_shiny }}" alt="espalda shiny">
+                    {% endif %}
+                </div>
+            </div>
+
+            <h3>Movimientos ({{ pokemon.moves | length }})</h3>
+            <ul>
+                {% for move in pokemon.moves %}
+                    <li>{{ move }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+</body>
+</html>
