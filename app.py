@@ -19,8 +19,6 @@ def index():
                 resp = requests.get(url)
                 if resp.status_code == 200:
                     data = resp.json()
-
-                    # Solo recoger los campos solicitados: nombre, movimientos, tipos y 4 imágenes
                     pokemon = {
                         'name': data.get('name'),
                         'moves': [m['move']['name'] for m in data.get('moves', [])],
